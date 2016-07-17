@@ -4,6 +4,11 @@
 *.o
 *.obj
 
+# CodeBlocks Project Files
+*.cbp
+*.depend
+*.layout
+
 # Precompiled Headers
 *.gch
 *.pch
