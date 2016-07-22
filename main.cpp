@@ -393,22 +393,22 @@ public:
 
             if(Set.Punc(tx)!= "NULL")
             {
-                tokens.push_back(Set.Punc(tx));
+                tokens.push_back(tx);
                 xStart = 2;
             }
             else if(Set.Op(tx)!= "NULL")
             {
-                tokens.push_back(Set.Op(tx));
+                tokens.push_back(tx);
                 xStart = 2;
             }
             else if(Set.Punc(td)!= "NULL")
             {
-                tokens.push_back(Set.Punc(td));
+                tokens.push_back(td);
                 xStart = 1;
             }
             else if(Set.Op(td)!= "NULL")
             {
-                tokens.push_back(Set.Op(td));
+                tokens.push_back(td);
                 xStart = 1;
             }
         }
@@ -416,12 +416,12 @@ public:
         {
             if(Set.Punc(x)!="NULL")
             {
-                tokens.push_back(Set.Punc(x));
+                tokens.push_back(x);
                 xStart = 1;
             }
             else if(Set.Op(x)!="NULL")
             {
-                tokens.push_back(Set.Op(x));
+                tokens.push_back(x);
                 xStart = 1;
             }
         }
