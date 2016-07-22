@@ -343,6 +343,7 @@ public:
     {
         int xLength = x.length();
         int xStart = 0;
+        cout<<x;
 
         if(xLength > 1)
         {
@@ -379,49 +380,13 @@ public:
                 xStart = 1;
             }
         }
-
         string ret = x.substr(xStart,xLength-xStart);
         return ret;
     }
 
-    void recurse(string buffer)
-    {
-        if(buffer.size() == 0) return;
-
-        while(true)
-        {
-            string tm = clrPrefix(buffer);
-            if(tm == buffer) break;
-            buffer = clrPrefix(tm);
-        }
-        trio tr = check(buffer);
-        if(descState[tr.lastState] == "<ID>" )
-        {
-            string keycheck = buffer.substr(0,tr.index);
-            if(Set.Key(keycheck)!="NULL")
-            {
-                tokens.push_back(Set.Key(keycheck));
-            }
-            else tokens.push_back(descState[tr.lastState]);
-        }
-        else
-        {
-            tokens.push_back(descState[tr.lastState]);
-        }
-        recurse(buffer.substr(tr.index,buffer.length()-tr.index));
-    }
-
     void detect(string buffer)
     {
-        stringstream ss(buffer);
-        string t;
-        while(ss>>t)
-        {
-            recurse(t);
-            ///trio tr = check(t);
-            ///cout<<"Index:\t"<<tr.index<<endl<<"State:\t"<<descState[tr.state]<<endl<<"Last:\t"<<descState[tr.lastState]<<endl<<endl;
-        }
-        tokens.push_back("\n");
+
     }
 
     vector<string> getTokens()
