@@ -1,33 +1,131 @@
-State: 0
-Index: 11034336
 
-State: 0
-Index: 11034336
 
-State: 0
-Index: 11036464
 
-State: 0
-Index: 11036464
+------------------------TOKENS------------------------
+int				---->  <INT-TYPE>
+ 				---->  <SPACE>
+main				---->  <MAIN>
+(				---->  <(>
+)				---->  <)>
+				---->  
 
-State: 0
-Index: 11034816
+				---->  <ENDLINE>
+{				---->  <{>
+				---->  
 
-State: 2
-Index: 1
+				---->  <ENDLINE>
+freopen				---->  <ID>
+(				---->  <(>
+"input.txt"				---->  <STRING>
+,				---->  <,>
+"r"				---->  <STRING>
+,				---->  <,>
+stdin				---->  <ID>
+)				---->  <)>
+;				---->  <;>
+				---->  
 
-State: 6
-Index: 1
+				---->  <ENDLINE>
+freopen				---->  <ID>
+(				---->  <(>
+"output.txt"				---->  <STRING>
+,				---->  <,>
+"w"				---->  <STRING>
+,				---->  <,>
+stdout				---->  <ID>
+)				---->  <)>
+;				---->  <;>
+				---->  
 
-State: 6
-Index: 1
+				---->  <ENDLINE>
+string				---->  <STRING-TYPE>
+ 				---->  <SPACE>
+buffer				---->  <ID>
+;				---->  <;>
+				---->  
 
-State: 0
-Index: 11036240
+				---->  <ENDLINE>
+while				---->  <WHILE-LOOP>
+(				---->  <(>
+!				---->  <LOGIC-NOT-OP>
+cin				---->  <ID>
+.				---->  <.>
+eof				---->  <ID>
+(				---->  <(>
+)				---->  <)>
+)				---->  <)>
+				---->  
 
-State: 1
-Index: 1
+				---->  <ENDLINE>
+{				---->  <{>
+				---->  
 
-State: 0
-Index: 11036240
+				---->  <ENDLINE>
+getline				---->  <ID>
+(				---->  <(>
+cin				---->  <ID>
+,				---->  <,>
+				---->  
+ 				---->  <SPACE>
+buffer				---->  <ID>
+)				---->  <)>
+;				---->  <;>
+				---->  
 
+				---->  <ENDLINE>
+if				---->  <IF-CONDITION>
+(				---->  <(>
+!				---->  <LOGIC-NOT-OP>
+buffer				---->  <ID>
+.				---->  <.>
+empty				---->  <ID>
+(				---->  <(>
+)				---->  <)>
+)				---->  <)>
+				---->  
+
+				---->  <ENDLINE>
+{				---->  <{>
+				---->  
+
+				---->  <ENDLINE>
+dfa				---->  <ID>
+.				---->  <.>
+detect				---->  <ID>
+(				---->  <(>
+buffer				---->  <ID>
+)				---->  <)>
+;				---->  <;>
+				---->  
+
+				---->  <ENDLINE>
+dfa				---->  <ID>
+.				---->  <.>
+addEndLine				---->  <ID>
+(				---->  <(>
+)				---->  <)>
+;				---->  <;>
+				---->  
+
+				---->  <ENDLINE>
+}				---->  <}>
+				---->  
+
+				---->  <ENDLINE>
+}				---->  <}>
+				---->  
+
+				---->  <ENDLINE>
+dfa				---->  <ID>
+.				---->  <.>
+printTokens				---->  <ID>
+(				---->  <(>
+)				---->  <)>
+;				---->  <;>
+				---->  
+
+				---->  <ENDLINE>
+}				---->  <}>
+				---->  
+
+				---->  <ENDLINE>

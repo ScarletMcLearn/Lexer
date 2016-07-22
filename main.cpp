@@ -99,6 +99,8 @@ public:
             make_pair(")","<)>"),
             make_pair("{","<{>"),
             make_pair("}","<}>"),
+            make_pair("'","<'>"),
+            make_pair(".","<.>"),
             make_pair(",","<,>"),
             make_pair(";","<;>"),
             make_pair("#","<#>")
@@ -210,7 +212,8 @@ public:
     trio check(string str)
     {
         int state=0, lastState=0, i = 0;
-        for(; true; i++)
+
+        while(true)
         {
             switch(state)
             {
@@ -364,19 +367,13 @@ public:
                 break;
             case 7:
                 lastState = 7;
-                if(Set.A(str[i])||
-                        Set.C(str[i])||
-                        Set.D(str[i])||
-                        Set.N(str[i])||
-                        Set.S(str[i]))
-                {
-                    state = 10;
-                }
+                return make_trio(state,lastState,i);
                 break;
             case 10:
                 i = i-1;
                 return make_trio(state,lastState,i);
             }
+            i++;
         }
         return make_trio(state,lastState,i);
     }
@@ -429,15 +426,24 @@ public:
         return ret;
     }
 
-    void detect(string buffer)
+    string clrDfaPrefix(string words)
     {
-        //trio sample = check(buffer);
+        trio sample = check(words);
         //cout<<"Index: "<<sample.index<<endl<<"Last: "<<descState[sample.lastState]<<endl;
 
-        stringstream ss(buffer);
-        string words;
+        /// The num/id/string part of the word is seperated
+        string tok = words.substr(0,sample.index);
 
-        while(ss>>words)
+        /// Seperated part is pushed to Tokens
+        tokens.push_back(tok);
+
+        ///Remaining part is returned
+        return words.substr(sample.index,words.size()-tok.size());
+    }
+
+    void wordsToTokens(string words)
+    {
+        while(!words.empty())
         {
             int wordLength = words.size();
             while(true)
@@ -447,7 +453,23 @@ public:
                 wordLength = words.size();
             }
 
+            words = clrDfaPrefix(words);
+
         }
+    }
+
+    void detect(string buffer)
+    {
+
+        stringstream ss(buffer);
+        string words;
+
+        while(ss>>words)
+        {
+            wordsToTokens(words);
+            tokens.push_back(" ");
+        }
+        tokens.pop_back();
     }
 
     vector<string> getTokens()
@@ -455,13 +477,30 @@ public:
         return tokens;
     }
 
+    void addEndLine()
+    {
+        tokens.push_back("\n");
+    }
+
     void printTokens()
     {
         cout<<"\n\n\n------------------------TOKENS------------------------\n";
-        for(int i=0;i<tokens.size();i++)
+        for(int i=0; i<tokens.size(); i++)
         {
-            cout<<tokens[i]<<endl;
+            cout<<tokens[i]<<"\t\t\t\t---->  "<<describeToken(tokens[i])<<endl;
         }
+    }
+
+    string describeToken(string token)
+    {
+        if(Set.Key(token) != "NULL")    return Set.Key(token);
+        if(Set.Punc(token)!="NULL")     return Set.Punc(token);
+        if(Set.Op(token)!="NULL")       return Set.Op(token);
+        if(token == "\n")                   return "<ENDLINE>";
+        if(token == " ")                    return "<SPACE>";
+
+        return descState[check(token).lastState];
+
     }
 
 } dfa;
@@ -471,23 +510,22 @@ public:
 int main()
 {
     freopen("input.txt","r",stdin);
-    //freopen("output.txt","w",stdout);
+    freopen("output.txt","w",stdout);
 
 
     string buffer;
 
-    /**/
     while(!cin.eof())
     {
         getline(cin, buffer);
         if(!buffer.empty())
         {
             dfa.detect(buffer);
-            dfa.printTokens();
+            dfa.addEndLine();
         }
     }
 
-    ///*/
+    dfa.printTokens();
 
 }
 
