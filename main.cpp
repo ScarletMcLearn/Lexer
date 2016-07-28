@@ -102,6 +102,14 @@ public:
             //make_pair("'","<'>"),
             make_pair(".","<.>"),
             make_pair(",","<,>"),
+            make_pair(":","<:>"),
+            make_pair("~","<ERROR LEXEME>"),
+            make_pair("_","<ERROR LEXEME>"),
+            make_pair("`","<ERROR LEXEME>"),
+            make_pair("$","<ERROR LEXEME>"),
+            make_pair("@","<ERROR LEXEME>"),
+            make_pair("?","<?>"),
+            make_pair(" ","<SPACE>"),
             make_pair(";","<;>"),
             make_pair("#","<#>")
         });
@@ -495,13 +503,25 @@ public:
             }
 
             words = clrDfaPrefix(words);
-
         }
+    }
+
+    void trim(string& s)
+    {
+        size_t p = s.find_first_not_of(" \t");
+        s.erase(0, p);
+
+        p = s.find_last_not_of(" \t");
+        if (string::npos != p)
+            s.erase(p+1);
     }
 
     void detect(string buffer)
     {
+        trim(buffer);
+        wordsToTokens(buffer);
 
+        /*
         stringstream ss(buffer);
         string words;
 
@@ -512,6 +532,7 @@ public:
             tokens.push_back(" ");
         }
         tokens.pop_back();
+        */
     }
 
     vector<string> getTokens()
@@ -543,7 +564,6 @@ public:
         if(Set.Punc(token)!="NULL")     return Set.Punc(token);
         if(Set.Op(token)!="NULL")       return Set.Op(token);
         if(token == "\n")                   return "<ENDLINE>";
-        if(token == " ")                    return "<SPACE>";
 
         return descState[check(token).lastState];
 
