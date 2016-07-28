@@ -99,7 +99,7 @@ public:
             make_pair(")","<)>"),
             make_pair("{","<{>"),
             make_pair("}","<}>"),
-            make_pair("'","<'>"),
+            //make_pair("'","<'>"),
             make_pair(".","<.>"),
             make_pair(",","<,>"),
             make_pair(";","<;>"),
@@ -204,7 +204,10 @@ public:
             make_pair(6, "<ID>"),
             make_pair(1, "<NUM>"),
             make_pair(9, "<NUM-FLOATING>"),
-            make_pair(10, "<ERROR>")
+            make_pair(10, "<ERROR>"),
+            make_pair(11, "<ERROR>"),
+            make_pair(12, "<ERROR-Multi char>"),
+            make_pair(13, "<CHAR>")
         });
 
     }
@@ -231,6 +234,11 @@ public:
                 else if(Set.C(str[i]))
                 {
                     state = 3;
+                    lastState = 0;
+                }
+                else if(str[i] == '\'')
+                {
+                    state = 11;
                     lastState = 0;
                 }
                 else
@@ -369,6 +377,39 @@ public:
                 lastState = 7;
                 return make_trio(state,lastState,i);
                 break;
+            case 11:
+                if(Set.A(str[i]) && str[i]!= '\'')
+                {
+                    state = 12;
+                    lastState = 11;
+                }
+                else if(str[i] == '\'')
+                {
+                    state = 13;
+                    lastState = 11;
+                }
+                else
+                {
+                    lastState = 11;
+                    state = 10;
+                }
+                break;
+            case 12:
+                if(str[i] == '\'')
+                {
+                    state = 13;
+                    lastState = 12;
+                }
+                else
+                {
+                    lastState = 12;
+                    state = 10;
+                }
+                break;
+            case 13:
+                lastState = 13;
+                return make_trio(state,lastState,i);
+                break;
             case 10:
                 i = i-1;
                 return make_trio(state,lastState,i);
@@ -467,6 +508,7 @@ public:
         while(ss>>words)
         {
             wordsToTokens(words);
+
             tokens.push_back(" ");
         }
         tokens.pop_back();
@@ -487,7 +529,11 @@ public:
         cout<<"\n\n\n------------------------TOKENS------------------------\n";
         for(int i=0; i<tokens.size(); i++)
         {
-            cout<<tokens[i]<<"\t\t\t\t---->  "<<describeToken(tokens[i])<<endl;
+            if(tokens[i] != "\0")
+            {
+                cout<<(tokens[i]=="\n"?"":tokens[i])<<"\t\t\t\t---->  "
+                    <<describeToken(tokens[i])<<endl;
+            }
         }
     }
 
@@ -510,7 +556,7 @@ public:
 int main()
 {
     freopen("input.txt","r",stdin);
-    freopen("output.txt","w",stdout);
+    //freopen("output.txt","w",stdout);
 
 
     string buffer;
